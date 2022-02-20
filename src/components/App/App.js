@@ -11,7 +11,7 @@ import Api from '../services/pixabay-api';
 class App extends Component {
   state = {
     imageName: '',
-    images: null,
+    images: [],
     error: null,
     loading: false,
     page: 1,
@@ -26,7 +26,7 @@ class App extends Component {
     const currentPage = this.state.page;
 
     try {
-      if (prevImage !== currentImage || prevState.page !== currentPage) {
+      if (prevImage !== currentImage) {
         this.setState({
           loading: true,
           images: null,
@@ -42,14 +42,14 @@ class App extends Component {
           return;
         }
         this.setState({
-          images:
-            this.state.page === 1
-              ? response.data.hits
-              : [...prevState.images, ...response.data.hits],
+          images: response.data.hits,
         });
-        if (response.data.hits.length < 12) {
-          this.setState({ showLoadMore: false });
-        }
+      }
+      if (prevState.page !== currentPage) {
+        const response = await Api.fetchImages(currentImage, currentPage);
+        this.setState({
+          images: [...this.state.images, ...response.data.hits],
+        });
       }
     } catch (error) {
       this.setState({
@@ -103,8 +103,8 @@ class App extends Component {
             <img src={largeImage} alt="" />
           </Modal>
         )}
+        {loading && <Loader />}
         {showLoadMore && <Button onClick={this.handleLoadMore} />}
-        {loading && <Loader> </Loader>}
       </Container>
     );
   }
