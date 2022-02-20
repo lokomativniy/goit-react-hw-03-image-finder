@@ -2,25 +2,6 @@ import s from './ImageGallery.module.css';
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import PropTypes from 'prop-types';
 
-// export const ImageGallery = ({ images, onClick, toogleModal }) => {
-//   return (
-//     <>
-//       <ul className={styles.ImageGallery}>
-//         {images.map(image => {
-//           return (
-//             <ImageGalleryItem
-//               toogleModal={toogleModal}
-//               onClick={onClick}
-//               key={image.id}
-//               image={image}
-//             ></ImageGalleryItem>
-//           );
-//         })}
-//       </ul>
-//     </>
-//   );
-// };
-
 export const ImageGallery = props => (
   <ul className={s.ImageGallery}>
     {props.images.map(image => {
