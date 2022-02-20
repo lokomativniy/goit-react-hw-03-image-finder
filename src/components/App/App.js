@@ -16,8 +16,7 @@ class App extends Component {
     loading: false,
     page: 1,
     showModal: false,
-    largeImage: null,
-    showLoadMore: false,
+    largeImage: '',
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -29,13 +28,11 @@ class App extends Component {
       if (prevImage !== currentImage) {
         this.setState({
           loading: true,
-          images: null,
-          showLoadMore: false,
+          images: [],
         });
         const response = await Api.fetchImages(currentImage, currentPage);
         this.setState({
           loading: false,
-          showLoadMore: response.data.hits.length < 12 ? false : true,
         });
         if (response.data.hits.length === 0) {
           toast.info(`not found images ${currentImage}`);
@@ -86,7 +83,7 @@ class App extends Component {
   };
 
   render() {
-    const { images, loading, largeImage, showModal, showLoadMore } = this.state;
+    const { images, loading, largeImage, showModal } = this.state;
     return (
       <Container>
         <ToastContainer autoClose={3000} />
@@ -98,13 +95,16 @@ class App extends Component {
             images={images}
           ></ImageGallery>
         )}
+        {loading && <Loader />}
         {showModal && (
           <Modal onClose={this.toogleModal} largeImage={largeImage}>
             <img src={largeImage} alt="" />
           </Modal>
         )}
-        {loading && <Loader />}
-        {showLoadMore && <Button onClick={this.handleLoadMore} />}
+
+        {images.length > 0 && !loading && (
+          <Button onClick={this.handleLoadMore} />
+        )}
       </Container>
     );
   }

@@ -5,7 +5,7 @@
   margin-right: auto;
   padding: 8px 16px;
   border-radius: 5px;
-  background-color: #ffffff;
+  background-color: teal;
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
   color: #000;
@@ -24,5 +24,5 @@
 
 .Button:hover,
 .Button:focus {
-  background-color: teal;
+  cursor: pointer;
 }
