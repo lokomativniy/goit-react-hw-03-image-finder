@@ -32,14 +32,11 @@ class App extends Component {
           images: null,
           showLoadMore: false,
         });
-
         const response = await Api.fetchImages(currentImage, currentPage);
-
         this.setState({
           loading: false,
           showLoadMore: response.data.hits.length < 12 ? false : true,
         });
-
         if (response.data.hits.length === 0) {
           toast.info(`not found images ${currentImage}`);
           return;
@@ -59,8 +56,16 @@ class App extends Component {
         error: toast.error('Something went wrong, please try again'),
       });
     }
+    if (currentPage > 1) {
+      this.scrollDown();
+    }
   }
-
+  scrollDown() {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
+  }
   handleSearcFormSubmit = imageName => {
     this.setState({ imageName });
   };
